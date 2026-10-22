@@ -19,7 +19,7 @@ struct GarmentParameterComponentData
     static constexpr const char* NAME = "entGarmentParameterComponentData";
     static constexpr const char* ALIAS = NAME;
 
-    DataBuffer compiledTriangleIndsData; // 00
+    DataBuffer compiledTriangleIndsData; // 0
     DataBuffer compiledVertexTbnData; // 28
     CRUID componentID; // 50
     uint64_t meshGeometryHash; // 58
@@ -46,8 +46,9 @@ struct GarmentParameterComponentData
     uint32_t numIndices; // B4
     uint32_t numOffsets; // B8
     uint8_t unkBC[0xC0 - 0xBC]; // BC
+    uint64_t meshPathHash; // C0
 };
-RED4EXT_ASSERT_SIZE(GarmentParameterComponentData, 0xC0);
+RED4EXT_ASSERT_SIZE(GarmentParameterComponentData, 0xC8);
 } // namespace ent
 using entGarmentParameterComponentData = ent::GarmentParameterComponentData;
 } // namespace RED4ext

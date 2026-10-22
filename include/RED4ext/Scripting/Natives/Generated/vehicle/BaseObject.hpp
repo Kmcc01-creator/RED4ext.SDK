@@ -8,7 +8,7 @@
 
 namespace RED4ext
 {
-RED4EXT_ASSERT_SIZE(vehicle::BaseObject, 0xBA0);
+RED4EXT_ASSERT_SIZE(vehicle::BaseObject, 0xBC0);
 using vehicleBaseObject = vehicle::BaseObject;
 using VehicleObject = vehicle::BaseObject;
 } // namespace RED4ext
@@ -36,7 +36,7 @@ struct __declspec(align(0x10)) BaseObject : game::Object
     bool isVehicleOnStateLocked; // 6D2
     uint8_t unk6D3[0xBA0 - 0x6D3]; // 6D3
 };
-RED4EXT_ASSERT_SIZE(BaseObject, 0xBA0);
+RED4EXT_ASSERT_SIZE(BaseObject, 0xBC0);
 } // namespace vehicle
 using vehicleBaseObject = vehicle::BaseObject;
 using VehicleObject = vehicle::BaseObject;

@@ -62,7 +62,8 @@ struct __declspec(align(0x10)) CMesh : res::StreamedResource
     bool isPlayerShadowMesh;                                    // 20B
     uint8_t unk20C[0x219 - 0x20C];                              // 20C
     ERenderObjectType objectType;                               // 219
-    uint8_t unk21A[0x230 - 0x21A];                              // 21A
+    uint8_t unk21A[0x220 - 0x21A];                              // 21A
 };
-RED4EXT_ASSERT_SIZE(CMesh, 0x230);
+// Game 2.5 shrank the mesh by 0x10 (0x230 -> 0x220) with every reflected member in place.
+RED4EXT_ASSERT_SIZE(CMesh, 0x220);
 } // namespace RED4ext

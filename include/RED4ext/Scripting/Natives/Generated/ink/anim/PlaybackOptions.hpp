@@ -18,12 +18,12 @@ struct PlaybackOptions
     static constexpr const char* NAME = "inkanimPlaybackOptions";
     static constexpr const char* ALIAS = "inkAnimOptions";
 
-    bool playReversed; // 00
-    uint8_t unk01[0x4 - 0x1]; // 1
-    float executionDelay; // 04
-    ink::anim::LoopType loopType; // 08
-    uint8_t unk09[0xC - 0x9]; // 9
-    uint32_t loopCounter; // 0C
+    bool playReversed; // 0
+    uint8_t unk1[0x4 - 0x1]; // 1
+    float executionDelay; // 4
+    ink::anim::LoopType loopType; // 8
+    uint8_t unk9[0xC - 0x9]; // 9
+    uint32_t loopCounter; // C
     bool loopInfinite; // 10
     uint8_t unk11[0x18 - 0x11]; // 11
     CName fromMarker; // 18
@@ -33,8 +33,10 @@ struct PlaybackOptions
     bool applyCustomTimeDilation; // 2A
     uint8_t unk2B[0x2C - 0x2B]; // 2B
     float customTimeDilation; // 2C
+    bool pauseInPhotoMode; // 30
+    uint8_t unk31[0x38 - 0x31]; // 31
 };
-RED4EXT_ASSERT_SIZE(PlaybackOptions, 0x30);
+RED4EXT_ASSERT_SIZE(PlaybackOptions, 0x38);
 } // namespace ink::anim
 using inkanimPlaybackOptions = ink::anim::PlaybackOptions;
 using inkAnimOptions = ink::anim::PlaybackOptions;

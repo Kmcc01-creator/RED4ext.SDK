@@ -18,13 +18,13 @@ struct PuppetPreviewCameraController
     static constexpr const char* NAME = "gameuiPuppetPreviewCameraController";
     static constexpr const char* ALIAS = NAME;
 
-    DynArray<game::ui::PuppetPreviewCameraSetup> cameraSetup; // 00
+    DynArray<game::ui::PuppetPreviewCameraSetup> cameraSetup; // 0
     uint32_t activeSetup; // 10
     uint8_t unk14[0x30 - 0x14]; // 14
     float transitionDelay; // 30
-    uint8_t unk34[0x70 - 0x34]; // 34
+    uint8_t unk34[0x90 - 0x34]; // 34
 };
-RED4EXT_ASSERT_SIZE(PuppetPreviewCameraController, 0x70);
+RED4EXT_ASSERT_SIZE(PuppetPreviewCameraController, 0x90);
 } // namespace game::ui
 using gameuiPuppetPreviewCameraController = game::ui::PuppetPreviewCameraController;
 } // namespace RED4ext

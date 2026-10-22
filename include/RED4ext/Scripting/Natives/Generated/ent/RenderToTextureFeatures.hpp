@@ -17,16 +17,18 @@ struct RenderToTextureFeatures
     static constexpr const char* NAME = "entRenderToTextureFeatures";
     static constexpr const char* ALIAS = NAME;
 
-    bool renderDecals; // 00
-    bool renderParticles; // 01
-    bool renderForwardNoTXAA; // 02
-    ent::RenderToTextureFeaturesPlatform antiAliasing; // 03
-    bool contactShadows; // 04
-    bool localShadows; // 05
-    ent::RenderToTextureFeaturesPlatform SSAO; // 06
-    ent::RenderToTextureFeaturesPlatform reflections; // 07
+    bool renderDecals; // 0
+    bool renderParticles; // 1
+    bool renderForwardNoTXAA; // 2
+    ent::RenderToTextureFeaturesPlatform antiAliasing; // 3
+    bool contactShadows; // 4
+    bool localShadows; // 5
+    ent::RenderToTextureFeaturesPlatform SSAO; // 6
+    ent::RenderToTextureFeaturesPlatform reflections; // 7
+    uint8_t unk8[0xA - 0x8]; // 8
+    bool stereo; // A
 };
-RED4EXT_ASSERT_SIZE(RenderToTextureFeatures, 0x8);
+RED4EXT_ASSERT_SIZE(RenderToTextureFeatures, 0xB);
 } // namespace ent
 using entRenderToTextureFeatures = ent::RenderToTextureFeatures;
 } // namespace RED4ext

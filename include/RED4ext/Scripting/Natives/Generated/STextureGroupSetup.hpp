@@ -17,16 +17,16 @@ struct STextureGroupSetup
     static constexpr const char* NAME = "STextureGroupSetup";
     static constexpr const char* ALIAS = NAME;
 
-    ETextureCompression compression; // 00
-    ETextureRawFormat rawFormat; // 04
-    GpuWrapApi::eTextureGroup group; // 08
-    uint8_t platformMipBiasPC; // 09
-    uint8_t platformMipBiasConsole; // 0A
-    bool isStreamable; // 0B
-    bool hasMipchain; // 0C
-    bool isGamma; // 0D
-    bool allowTextureDowngrade; // 0E
-    uint8_t unk0F[0x10 - 0xF]; // F
+    ETextureCompression compression; // 0
+    ETextureRawFormat rawFormat; // 4
+    uint8_t unk8[0x9 - 0x8]; // 8
+    GpuWrapApi::eTextureGroup group; // 9
+    uint8_t platformMipBiasPC; // A
+    uint8_t platformMipBiasConsole; // B
+    bool isStreamable; // C
+    bool hasMipchain; // D
+    bool isGamma; // E
+    bool allowTextureDowngrade; // F
 };
 RED4EXT_ASSERT_SIZE(STextureGroupSetup, 0x10);
 } // namespace RED4ext

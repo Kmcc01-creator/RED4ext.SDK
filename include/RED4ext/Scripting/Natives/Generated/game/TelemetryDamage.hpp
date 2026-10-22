@@ -20,17 +20,17 @@ struct TelemetryDamage
     static constexpr const char* NAME = "gameTelemetryDamage";
     static constexpr const char* ALIAS = "TelemetryDamage";
 
-    game::data::AttackType attackType; // 00
-    TweakDBID attackRecord; // 04
-    float damageAmount; // 0C
+    game::data::AttackType attackType; // 0
+    TweakDBID attackRecord; // 4
+    float damageAmount; // C
     game::TelemetryInventoryItem weapon; // 10
-    game::TelemetrySourceEntity sourceEntity; // 80
-    uint32_t hitCount; // A8
-    float distance; // AC
-    float time; // B0
-    uint8_t unkB4[0xD8 - 0xB4]; // B4
+    game::TelemetrySourceEntity sourceEntity; // C0
+    uint32_t hitCount; // E8
+    float distance; // EC
+    float time; // F0
+    uint8_t unkF4[0x118 - 0xF4]; // F4
 };
-RED4EXT_ASSERT_SIZE(TelemetryDamage, 0xD8);
+RED4EXT_ASSERT_SIZE(TelemetryDamage, 0x118);
 } // namespace game
 using gameTelemetryDamage = game::TelemetryDamage;
 using TelemetryDamage = game::TelemetryDamage;

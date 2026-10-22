@@ -19,11 +19,12 @@ struct StatsStateMapStructure
     static constexpr const char* NAME = "gameStatsStateMapStructure";
     static constexpr const char* ALIAS = NAME;
 
-    uint8_t unk00[0x30 - 0x0]; // 0
+    uint8_t unk0[0x30 - 0x0]; // 0
     DynArray<game::StatsObjectID> keys; // 30
     DynArray<game::SavedStatsData> values; // 40
+    uint8_t unk50[0xB8 - 0x50]; // 50
 };
-RED4EXT_ASSERT_SIZE(StatsStateMapStructure, 0x50);
+RED4EXT_ASSERT_SIZE(StatsStateMapStructure, 0xB8);
 } // namespace game
 using gameStatsStateMapStructure = game::StatsStateMapStructure;
 } // namespace RED4ext

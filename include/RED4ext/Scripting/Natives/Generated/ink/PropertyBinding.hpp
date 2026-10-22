@@ -17,11 +17,11 @@ struct PropertyBinding
     static constexpr const char* NAME = "inkPropertyBinding";
     static constexpr const char* ALIAS = NAME;
 
-    CName propertyName; // 00
-    CName stylePath; // 08
-    uint8_t unk10[0x38 - 0x10]; // 10
+    CName propertyName; // 0
+    CName stylePath; // 8
+    uint8_t unk10[0x48 - 0x10]; // 10
 };
-RED4EXT_ASSERT_SIZE(PropertyBinding, 0x38);
+RED4EXT_ASSERT_SIZE(PropertyBinding, 0x48);
 } // namespace ink
 using inkPropertyBinding = ink::PropertyBinding;
 } // namespace RED4ext

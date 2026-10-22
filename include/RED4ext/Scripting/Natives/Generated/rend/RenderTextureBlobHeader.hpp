@@ -21,10 +21,10 @@ struct RenderTextureBlobHeader
     static constexpr const char* NAME = "rendRenderTextureBlobHeader";
     static constexpr const char* ALIAS = NAME;
 
-    uint32_t version; // 00
-    rend::RenderTextureBlobSizeInfo sizeInfo; // 04
-    uint8_t unk0A[0xC - 0xA]; // A
-    rend::RenderTextureBlobTextureInfo textureInfo; // 0C
+    uint32_t version; // 0
+    rend::RenderTextureBlobSizeInfo sizeInfo; // 4
+    uint8_t unkA[0xC - 0xA]; // A
+    rend::RenderTextureBlobTextureInfo textureInfo; // C
     DynArray<rend::RenderTextureBlobMipMapInfo> mipMapInfo; // 20
     DynArray<rend::HistogramBias> histogramData; // 30
     uint32_t flags; // 40

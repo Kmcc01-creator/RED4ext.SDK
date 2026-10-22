@@ -18,12 +18,12 @@ struct WidgetStateAnimatedTransition
     static constexpr const char* NAME = "inkWidgetStateAnimatedTransition";
     static constexpr const char* ALIAS = NAME;
 
-    CName startState; // 00
-    CName endState; // 08
+    CName startState; // 0
+    CName endState; // 8
     CName animationName; // 10
     ink::anim::PlaybackOptions playbackOptions; // 18
 };
-RED4EXT_ASSERT_SIZE(WidgetStateAnimatedTransition, 0x48);
+RED4EXT_ASSERT_SIZE(WidgetStateAnimatedTransition, 0x50);
 } // namespace ink
 using inkWidgetStateAnimatedTransition = ink::WidgetStateAnimatedTransition;
 } // namespace RED4ext

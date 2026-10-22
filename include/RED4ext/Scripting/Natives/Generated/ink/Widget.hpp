@@ -8,7 +8,7 @@
 
 namespace RED4ext
 {
-RED4EXT_ASSERT_SIZE(ink::Widget, 0x200);
+RED4EXT_ASSERT_SIZE(ink::Widget, 0x210);
 using inkWidget = ink::Widget;
 } // namespace RED4ext
 
@@ -68,7 +68,7 @@ struct __declspec(align(0x10)) Widget : IScriptable
     bool affectsLayoutWhenHidden; // 1FC
     uint8_t unk1FD[0x200 - 0x1FD]; // 1FD
 };
-RED4EXT_ASSERT_SIZE(Widget, 0x200);
+RED4EXT_ASSERT_SIZE(Widget, 0x210);
 } // namespace ink
 using inkWidget = ink::Widget;
 } // namespace RED4ext

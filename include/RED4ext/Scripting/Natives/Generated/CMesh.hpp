@@ -8,7 +8,7 @@
 
 namespace RED4ext
 {
-RED4EXT_ASSERT_SIZE(CMesh, 0x230);
+RED4EXT_ASSERT_SIZE(CMesh, 0x220);
 } // namespace RED4ext
 
 /*
@@ -71,7 +71,7 @@ struct __declspec(align(0x10)) CMesh : res::StreamedResource
     ERenderObjectType objectType; // 219
     uint8_t unk21A[0x230 - 0x21A]; // 21A
 };
-RED4EXT_ASSERT_SIZE(CMesh, 0x230);
+RED4EXT_ASSERT_SIZE(CMesh, 0x220);
 } // namespace RED4ext
 */
 

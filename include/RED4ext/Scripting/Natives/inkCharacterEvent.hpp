@@ -32,7 +32,8 @@ struct CharacterEvent : InputEvent
     EInputAction action;        // 90
     char character;             // 94
     inkCharacterEventType type; // 95
+    uint8_t unk96[0xA0 - 0x96]; // 96 - game 2.5 grew the event from 0x98 to 0xA0
 };
-RED4EXT_ASSERT_SIZE(CharacterEvent, 0x98);
+RED4EXT_ASSERT_SIZE(CharacterEvent, 0xA0);
 } // namespace ink
 } // namespace RED4ext
