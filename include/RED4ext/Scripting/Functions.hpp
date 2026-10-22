@@ -86,6 +86,12 @@ struct CBaseFunction : IFunction
     CCompiledCode bytecode;         // 78
     Flags flags;                    // A8
     int32_t unkAC;                  // AC
+    // Added in 2.5. The base constructor builds two 0x18-byte members at B0 and C8 with the same
+    // helper and zeroes the qword at E8; what they hold is not known yet.
+    uint8_t unkB0[0x18];            // B0
+    uint8_t unkC8[0x18];            // C8
+    int64_t unkE0;                  // E0
+    int64_t unkE8;                  // E8
 
 private:
     using Handler_t = void (*)(ScriptInstance, RED4ext::CStackFrame&, void*, CBaseRTTIType*);
@@ -94,7 +100,7 @@ private:
     static Handler_t GetHandler(uint32_t aIndex);
     bool ExecuteNative(CStack* aStack, CStackFrame& aFrame);
 };
-RED4EXT_ASSERT_SIZE(CBaseFunction, 0xB0);
+RED4EXT_ASSERT_SIZE(CBaseFunction, 0xF0);
 RED4EXT_ASSERT_OFFSET(CBaseFunction, fullName, 0x08);
 RED4EXT_ASSERT_OFFSET(CBaseFunction, bytecode, 0x78);
 RED4EXT_ASSERT_OFFSET(CBaseFunction, flags, 0xA8);
@@ -119,10 +125,10 @@ struct CGlobalFunction : CBaseFunction
         return memory;
     }
 
-    uint32_t regIndex; // B0
+    uint32_t regIndex; // F0
 };
-RED4EXT_ASSERT_SIZE(CGlobalFunction, 0xB8);
-RED4EXT_ASSERT_OFFSET(CGlobalFunction, regIndex, 0xB0);
+RED4EXT_ASSERT_SIZE(CGlobalFunction, 0xF8);
+RED4EXT_ASSERT_OFFSET(CGlobalFunction, regIndex, 0xF0);
 
 struct CClassFunction : CBaseFunction
 {
@@ -145,12 +151,12 @@ struct CClassFunction : CBaseFunction
         return memory;
     }
 
-    CClass* parent;    // B0
-    uint32_t regIndex; // B8
+    CClass* parent;    // F0
+    uint32_t regIndex; // F8
 };
-RED4EXT_ASSERT_SIZE(CClassFunction, 0xC0);
-RED4EXT_ASSERT_OFFSET(CClassFunction, parent, 0xB0);
-RED4EXT_ASSERT_OFFSET(CClassFunction, regIndex, 0xB8);
+RED4EXT_ASSERT_SIZE(CClassFunction, 0x100);
+RED4EXT_ASSERT_OFFSET(CClassFunction, parent, 0xF0);
+RED4EXT_ASSERT_OFFSET(CClassFunction, regIndex, 0xF8);
 
 struct CClassStaticFunction : CClassFunction
 {
@@ -174,14 +180,14 @@ struct CClassStaticFunction : CClassFunction
         return memory;
     }
 };
-RED4EXT_ASSERT_SIZE(CClassStaticFunction, 0xC0);
+RED4EXT_ASSERT_SIZE(CClassStaticFunction, 0x100);
 
 struct CScriptedFunction : CBaseFunction
 {
-    CClass* parent; // B0
+    CClass* parent; // F0 - after 2.5's larger base, as in CClassFunction
 };
-RED4EXT_ASSERT_SIZE(CScriptedFunction, 0xB8);
-RED4EXT_ASSERT_OFFSET(CScriptedFunction, parent, 0xB0);
+RED4EXT_ASSERT_SIZE(CScriptedFunction, 0xF8);
+RED4EXT_ASSERT_OFFSET(CScriptedFunction, parent, 0xF0);
 } // namespace RED4ext
 
 #ifdef RED4EXT_HEADER_ONLY
