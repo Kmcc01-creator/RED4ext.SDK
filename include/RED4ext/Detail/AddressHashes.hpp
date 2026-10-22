@@ -151,7 +151,9 @@ constexpr std::uint32_t ISerializable_sub_30 = 0x6D63649;
 constexpr std::uint32_t ISerializable_sub_40 = 0x88B30FF9;
 constexpr std::uint32_t ISerializable_sub_78 = 0xA1D93993;
 constexpr std::uint32_t ISerializable_sub_A0 = 0xED221B32;
-constexpr std::uint32_t ISerializable_sub_C0 = 0xDBE91251; // 0x80201C35 before game 2.5
+// The base implementation in slot 0xC0, the same hash on 2.31 and 2.5. The SDK's earlier 0x80201C35
+// named a different function on 2.31, and is gone on 2.5.
+constexpr std::uint32_t ISerializable_sub_C0 = 0xDBE91251;
 constexpr std::uint32_t ISerializable_Counter = 2630817091;
 #pragma endregion
 
@@ -252,7 +254,8 @@ constexpr std::uint32_t UpdateRegistrar_RegisterBucketUpdate = 0x197D4EA4;
 
 #pragma region DeferredDataBuffer
 constexpr std::uint32_t DeferredDataBuffer_LoadAsync = 4125893577;
-constexpr std::uint32_t DeferredDataBuffer_LoadRefAsync = 1459046115; // not in game 2.5's address file; not found yet
+// Game 2.5 added a byte parameter, which re-hashed it (1459046115 before); found by its callees.
+constexpr std::uint32_t DeferredDataBuffer_LoadRefAsync = 0xE5EF4790;
 #pragma endregion
 
 #pragma region LaunchParameters
