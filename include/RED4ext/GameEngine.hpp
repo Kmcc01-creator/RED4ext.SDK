@@ -55,22 +55,25 @@ RED4EXT_ASSERT_SIZE(GameInstance, 0x138);
 
 struct CBaseEngine
 {
+    // Game 2.5: hWnd moved from 0x178 to 0x1D0, found in game by its value. The members around it
+    // keep their 2.31 offsets relative to it (unk174 just before, isClipped 0x11 after); that is
+    // inferred, not checked. unk140 and unk164 are unchecked.
     struct UnkD0
     {
         uint8_t pad0[0x140];
         uint32_t unk140;
         uint8_t pad144[0x164 - 0x144];
         uint32_t unk164;
-        uint8_t pad158[0x164 - 0x158];
+        uint8_t pad168[0x1CC - 0x168];
         uint32_t unk174;
         void* hWnd;
-        uint8_t pad180[0x9];
+        uint8_t pad1D8[0x9];
         uint8_t isClipped;
     };
     RED4EXT_ASSERT_OFFSET(UnkD0, unk164, 0x164);
-    RED4EXT_ASSERT_OFFSET(UnkD0, unk174, 0x174);
-    RED4EXT_ASSERT_OFFSET(UnkD0, hWnd, 0x178);
-    RED4EXT_ASSERT_OFFSET(UnkD0, isClipped, 0x189);
+    RED4EXT_ASSERT_OFFSET(UnkD0, unk174, 0x1CC);
+    RED4EXT_ASSERT_OFFSET(UnkD0, hWnd, 0x1D0);
+    RED4EXT_ASSERT_OFFSET(UnkD0, isClipped, 0x1E1);
 
     struct Unk108
     {
@@ -160,52 +163,62 @@ struct CBaseEngine
     int64_t unkB0;                             // B0
     int64_t unkB8;                             // B8
     uint8_t padC0[0x10];                       // C0
-    UnkD0* unkD0;                              // D0
-    double unkD8;                              // D8
-    double unkE0;                              // E0
-    int32_t unkE8;                             // E8
-    int64_t unkF0;                             // F0
-    int64_t unkF8;                             // F8
-    int64_t unk100;                            // 100
-    volatile EEngineState engineState;         // 108
-    int32_t unk10C;                            // 10C
-    int32_t unk110;                            // 110
-    Unk108* unk118;                            // 118
-    Unk110 unk120;                             // 120
-    CString buildString;                       // 130
-    CString scriptsBlobPath;                   // 150
-    int32_t unk170;                            // 170
-    int8_t unk174;                             // 174
-    int64_t unk178;                            // 178
-    int64_t unk180;                            // 180
-    int64_t unk188;                            // 188
-    int64_t unk190;                            // 190
-    int8_t unk198[178];                        // 198
-    int32_t unk24C;                            // 24C
-    int8_t unk250[64];                         // 250
-    DynArray<void*> unk290;                    // 290
-    DynArray<void*> unk2A0;                    // 2A0
-    int64_t unk2B0;                            // 2B0
-    int64_t unk2B8;                            // 2B8
-    int64_t unk2C0;                            // 2C0
-    int64_t unk2C8;                            // 2C8
-    int32_t unk2D0;                            // 2D0
-    bool isEP1;                                // 2D4 - IsEP1()
-    int64_t unk2D8;                            // 2D8
-    int64_t unk2E0;                            // 2E0
+    // Game 2.5 added 0x20 bytes somewhere between 0x58 and 0xF0; placed here until found. The
+    // members from 0x58 to 0xC0 keep their 2.31 offsets, unchecked on 2.5.
+    uint8_t unkD0_2_5[0x20];                   // D0
+    UnkD0* unkD0;                              // F0
+    double unkD8;                              // F8
+    double unkE0;                              // 100
+    int32_t unkE8;                             // 108
+    int64_t unkF0;                             // 110
+    int64_t unkF8;                             // 118
+    int64_t unk100;                            // 120
+    volatile EEngineState engineState;         // 128
+    int32_t unk10C;                            // 12C
+    int32_t unk110;                            // 130
+    Unk108* unk118;                            // 138
+    Unk110 unk120;                             // 140
+    CString buildString;                       // 150
+    CString scriptsBlobPath;                   // 170
+    int32_t unk170;                            // 190
+    int8_t unk174;                             // 194
+    int64_t unk178;                            // 198
+    int64_t unk180;                            // 1A0
+    int64_t unk188;                            // 1A8
+    int64_t unk190;                            // 1B0
+    int8_t unk198[178];                        // 1B8
+    int32_t unk24C;                            // 26C
+    int8_t unk250[64];                         // 270
+    DynArray<void*> unk290;                    // 2B0
+    DynArray<void*> unk2A0;                    // 2C0
+    int64_t unk2B0;                            // 2D0
+    int64_t unk2B8;                            // 2D8
+    int64_t unk2C0;                            // 2E0
+    int64_t unk2C8;                            // 2E8
+    int32_t unk2D0;                            // 2F0
+    bool isEP1;                                // 2F4 - IsEP1()
+    int64_t unk2D8;                            // 2F8
+    int64_t unk2E0;                            // 300
+    // Game 2.5 added another 0x20 bytes after isEP1; placed here until found.
+    uint8_t unk308_2_5[0x20];                  // 308
 };
-RED4EXT_ASSERT_SIZE(CBaseEngine, 0x2E8);
+// Game 2.5 (3.0.88.46235): checked in game by value are scriptsLoaded, unkD0 (and its hWnd),
+// engineState, buildString and isEP1 (the IsEP1 native reads 0x2F4). scriptsBlobPath is inferred
+// from buildString; scriptsCompilationErrors and scriptsValidationErrors are unchecked.
+RED4EXT_ASSERT_SIZE(CBaseEngine, 0x328);
 RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsLoaded, 0x54);
-RED4EXT_ASSERT_OFFSET(CBaseEngine, unkD0, 0xD0);
+RED4EXT_ASSERT_OFFSET(CBaseEngine, unkD0, 0xF0);
+RED4EXT_ASSERT_OFFSET(CBaseEngine, engineState, 0x128);
 RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsValidationErrors, 0x90);
-RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsBlobPath, 0x150);
-RED4EXT_ASSERT_OFFSET(CBaseEngine, isEP1, 0x2D4);
+RED4EXT_ASSERT_OFFSET(CBaseEngine, buildString, 0x150);
+RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsBlobPath, 0x170);
+RED4EXT_ASSERT_OFFSET(CBaseEngine, isEP1, 0x2F4);
 
 struct BaseGameEngine : CBaseEngine
 {
-    int64_t unk2E8; // 2E8
+    int64_t unk2E8; // 328 (2E8 before game 2.5)
 };
-RED4EXT_ASSERT_SIZE(BaseGameEngine, 0x2F0);
+RED4EXT_ASSERT_SIZE(BaseGameEngine, 0x330);
 
 struct CGameEngine : BaseGameEngine
 {
@@ -222,22 +235,24 @@ struct CGameEngine : BaseGameEngine
 
     static CGameEngine* Get();
 
-    int64_t unk2F0;                       // 2F0
-    int64_t unk2F8;                       // 2F8
-    int32_t unk300;                       // 300
-    int32_t unk304;                       // 304
-    CGameFramework* framework;            // 308
-    services::GameServices* gameServices; // 310
-    int64_t unk318;                       // 318
-    int64_t unk320;                       // 320
-    int64_t unk328;                       // 328
-    int64_t unk330;                       // 330
-    int64_t unk338;                       // 338
-    int32_t unk340;                       // 340
-    int64_t unk348;                       // 348
+    int64_t unk2F0;                       // 330
+    int64_t unk2F8;                       // 338
+    int32_t unk300;                       // 340
+    int32_t unk304;                       // 344
+    CGameFramework* framework;            // 348
+    services::GameServices* gameServices; // 350
+    int64_t unk318;                       // 358
+    int64_t unk320;                       // 360
+    int64_t unk328;                       // 368
+    int64_t unk330;                       // 370
+    int64_t unk338;                       // 378
+    int32_t unk340;                       // 380
+    int64_t unk348;                       // 388
 };
-RED4EXT_ASSERT_SIZE(CGameEngine, 0x350);
-RED4EXT_ASSERT_OFFSET(CGameEngine, framework, 0x308);
+// Game 2.5: the members moved with CBaseEngine (+0x40). framework (0x348) is checked in game: the
+// game instance at its +0x10 returns the player system. gameServices is inferred.
+RED4EXT_ASSERT_SIZE(CGameEngine, 0x390);
+RED4EXT_ASSERT_OFFSET(CGameEngine, framework, 0x348);
 } // namespace RED4ext
 
 #ifdef RED4EXT_HEADER_ONLY
