@@ -4,7 +4,7 @@
 #include <RED4ext/CString.hpp>
 #include <RED4ext/IO/BaseStream.hpp>
 #include <RED4ext/InstanceType.hpp>
-#include <RED4ext/rtti/ERTTIType.hpp>
+#include <RED4ext/RTTI/ERTTIType.hpp>
 
 namespace RED4ext
 {
@@ -87,5 +87,5 @@ RED4EXT_ASSERT_SIZE(IType, 0x10);
 } // namespace RED4ext
 
 #ifdef RED4EXT_HEADER_ONLY
-#include <RED4ext/rtti/IType-inl.hpp>
+#include <RED4ext/RTTI/IType-inl.hpp>
 #endif
