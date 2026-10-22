@@ -9,7 +9,11 @@
 
 namespace RED4ext
 {
-constexpr size_t DefaultFixedCallbackBufferSize = 32;
+// The engine's own callbacks keep their target in a 64-byte inline buffer from game 2.5 on; it
+// was 32 bytes before. In 2.5, IRTTISystem's AddRegisterCallback (slot 0xC0) and
+// AddPostRegisterCallback (0xC8) destroy the callback they are passed through a handler read at
+// +0x40, so a 32-byte callback hands them whatever lies past its end.
+constexpr size_t DefaultFixedCallbackBufferSize = 64;
 constexpr size_t DefaultFlexCallbackBufferSize = 24;
 
 template<typename R, typename... Args>
