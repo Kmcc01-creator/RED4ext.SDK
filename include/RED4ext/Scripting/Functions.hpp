@@ -89,11 +89,11 @@ struct CBaseFunction : IFunction
     Flags flags;                    // A8
     int32_t unkAC;                  // AC
     // Added in 2.5. The base constructor builds two 0x18-byte members at B0 and C8 with the same
-    // helper and zeroes the qword at E8; what they hold is not known yet.
-    uint8_t unkB0[0x18];            // B0
-    uint8_t unkC8[0x18];            // C8
+    // helper and zeroes the qword at E8. What they are is upstream's reading, not checked here.
+    uint8_t unkB0[0x18];            // B0 - red::Set<uint64_t>, checked by the script call path
+    uint8_t unkC8[0x18];            // C8 - red::Set<uint64_t>, checked by the script call path
     int64_t unkE0;                  // E0
-    int64_t unkE8;                  // E8
+    CBaseFunction* unkE8;           // E8 - Redirect target used by the script call path when set
 
 private:
     using Handler_t = void (*)(void*, RED4ext::CStackFrame&, void*, rtti::IType*);

@@ -5,6 +5,7 @@
 #endif
 
 #include <bit>
+#include <cstring>
 
 #include <RED4ext/Detail/AddressHashes.hpp>
 #include <RED4ext/RTTISystem.hpp>
@@ -68,7 +69,7 @@ RED4EXT_INLINE RED4ext::CStackFrame::CStackFrame(IScriptable* aContext, char* aC
     paramFlags = 0;
     currentParam = 0;
     useDirectData = false;
-    unk64 = true;
+    isRoot = true;
     unk98 = &unk68;
     unkA0 = false;
 }

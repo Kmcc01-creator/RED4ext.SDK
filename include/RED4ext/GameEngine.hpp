@@ -170,7 +170,9 @@ struct CBaseEngine
     // Game 2.5 grew 0x68 to 0x90 from 2.31's one qword (unk68) to 0x28 bytes: CBaseEngine::LoadScripts
     // passes scriptsValidationErrors at 0xB0 (2.31: 0x90), and its neighbour uses
     // scriptsCompilationErrors at 0x90 (2.31: 0x70). What 2.5 code uses in between: a pointer to a
-    // static object stored at 0x78 at startup, and a dword tested at 0x84.
+    // static object stored at 0x78 at startup, and a dword tested at 0x84. Upstream (0f5eba42) reads
+    // 0x68 as a DynArray of script mod blobs (-LoadScriptMods); in 2.5's LoadScripts those go to a
+    // local list instead.
     int64_t unk68;                             // 68
     int64_t unk70;                             // 70
     void* unk78;                               // 78
@@ -216,7 +218,7 @@ struct CBaseEngine
     int32_t unk2D0;                            // 2F0
     bool isEP1;                                // 2F4 - IsEP1()
     // Game 2.5 added 0x20 bytes here, before 2.31's unk2D8: the same code reads that at 0x2D8 in
-    // 2.31 and at 0x318 in 2.5.
+    // 2.31 and at 0x318 in 2.5. Upstream (0f5eba42) reads it as a CString path, not checked here.
     uint8_t unk2F8[0x20];                      // 2F8
     int64_t unk2D8;                            // 318
     int64_t unk2E0;                            // 320
