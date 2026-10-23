@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <RED4ext/HashMap.hpp>
 #include <RED4ext/InstanceType.hpp>
 #include <RED4ext/Scripting/Functions.hpp>
 
@@ -130,6 +131,10 @@ struct CStackFrame
     uint16_t paramFlags;   // 60
     uint8_t currentParam;  // 62
     bool useDirectData;    // 63 - If set the result param is not used, preventing an extra copy of the result
+    bool unk64;            // 64 - added in 2.5, set on a frame without a parent
+    HashMap<uint64_t, void*> unk68;  // 68 - added in 2.5, empty on construction, in PoolScript
+    HashMap<uint64_t, void*>* unk98; // 98 - added in 2.5, the root frame's unk68, which a child frame inherits
+    bool unkA0;                      // A0 - added in 2.5
 
     void Step()
     {
@@ -141,7 +146,9 @@ struct CStackFrame
         return (paramFlags & (1 << currentParam)) != 0;
     }
 };
-RED4EXT_ASSERT_SIZE(CStackFrame, 0x68);
+RED4EXT_ASSERT_SIZE(CStackFrame, 0xA8);
+RED4EXT_ASSERT_OFFSET(CStackFrame, unk68, 0x68);
+RED4EXT_ASSERT_OFFSET(CStackFrame, unk98, 0x98);
 } // namespace RED4ext
 
 #ifdef RED4EXT_HEADER_ONLY

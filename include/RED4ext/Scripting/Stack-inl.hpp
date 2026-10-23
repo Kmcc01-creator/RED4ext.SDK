@@ -48,7 +48,10 @@ RED4EXT_INLINE RED4ext::CStack::CStack(void* aContext, CStackType* aArgs, uint32
     *reinterpret_cast<uintptr_t**>(this) = vtbl;
 }
 
+// As the engine's constructor sets up a frame without a parent (0x140278ebc in game 2.5): it is the
+// root of its call chain, and the frames the engine builds below it inherit its unk98.
 RED4EXT_INLINE RED4ext::CStackFrame::CStackFrame(IScriptable* aContext, char* aCode, void* aUnk)
+    : unk68(Memory::ScriptAllocator::Get())
 {
     code = aCode;
     func = nullptr;
@@ -65,4 +68,7 @@ RED4EXT_INLINE RED4ext::CStackFrame::CStackFrame(IScriptable* aContext, char* aC
     paramFlags = 0;
     currentParam = 0;
     useDirectData = false;
+    unk64 = true;
+    unk98 = &unk68;
+    unkA0 = false;
 }
