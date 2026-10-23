@@ -64,8 +64,12 @@ struct IRTTISystem
     virtual CName ConvertScriptToNativeName(CName aName) = 0;                    // 120
     virtual CString* GetStringConst(uint32_t aIndex) = 0;         // 128 - Used by StringConst opcode (0x10)
     virtual void SetStringTable(DynArray<CString>& aStrings) = 0; // 130 - Called by script loader
+    virtual void sub_138(void* a1) = 0; // 138 - added in 2.5, appends a1 to unk238 under unk258
+    virtual void sub_140(void* a1) = 0; // 140 - added in 2.5, appends a1 to unk248 under unk280
+    virtual void sub_148(void* a1) = 0; // 148 - added in 2.5, removes a1 from unk238 under unk258
+    virtual void sub_150(void* a1) = 0; // 150 - added in 2.5, removes a1 from unk248 under unk280
 
-    virtual ~IRTTISystem() = 0; // 138
+    virtual ~IRTTISystem() = 0; // 158
 };
 RED4EXT_ASSERT_SIZE(IRTTISystem, 0x8);
 
@@ -93,8 +97,12 @@ struct CRTTISystem : IRTTISystem
     Mutex unk1E0;                                    // 1E0
     SharedSpinLock typesLock;                        // 208
     Mutex rttiRegistratorMutex;                      // 210
+    DynArray<void*> unk238;                          // 238 - added in 2.5, see sub_138 and sub_148
+    DynArray<void*> unk248;                          // 248 - added in 2.5, see sub_140 and sub_150
+    Mutex unk258;                                    // 258 - added in 2.5
+    Mutex unk280;                                    // 280 - added in 2.5
 };
-RED4EXT_ASSERT_SIZE(CRTTISystem, 0x238);
+RED4EXT_ASSERT_SIZE(CRTTISystem, 0x2A8);
 RED4EXT_ASSERT_OFFSET(CRTTISystem, types, 0x10);
 RED4EXT_ASSERT_OFFSET(CRTTISystem, funcs, 0xA0);
 RED4EXT_ASSERT_OFFSET(CRTTISystem, scriptToNative, 0x150);
