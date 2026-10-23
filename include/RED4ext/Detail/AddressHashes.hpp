@@ -233,7 +233,9 @@ constexpr std::uint32_t ResourceToken_dtor = 0x9A5F0A0D;
 constexpr std::uint32_t ResourceToken_Fetch = 0x8C0918CA;
 constexpr std::uint32_t ResourceToken_OnLoaded = 0xEB4B25AB;
 constexpr std::uint32_t ResourceToken_CancelUnk38 = 0xF6E20CE6;
-constexpr std::uint32_t ResourceToken_DestructUnk38 = 0x95831FEE;
+// The release the engine's own token destructor calls on +0x38, in 2.31 and 2.5. The SDK's earlier
+// 0x95831FEE is another release function (three callers in the exe).
+constexpr std::uint32_t ResourceToken_DestructUnk38 = 0xE4551DBE;
 #pragma endregion
 
 #pragma region TTypedClass
