@@ -19,13 +19,17 @@ struct Archive
 RED4EXT_ASSERT_SIZE(Archive, 0x50);
 RED4EXT_ASSERT_OFFSET(Archive, path, 0x10);
 
+// Game 2.5's values, read from the function that maps a scope to its directory (hash 1525423808):
+// 1 content, 2 ep1, 4 and 5 patch, 6 mod, and 0 and 3 none. Up to 2.31 they were 1 content, 2 ep1,
+// 3 patch and 4 mod.
 enum class ArchiveScope : uint32_t
 {
     Invalid = 0,
     Content = 1, // archive\pc\content
-    DLC = 2,     // archive\pc\dlc
-    Patch = 3,   // archive\pc\patch
-    Mod = 4,     // archive\pc\mod + mods\*\archives
+    DLC = 2,     // archive\pc\ep1
+    Patch = 4,   // archive\pc\patch
+    Patch2 = 5,  // archive\pc\patch as well; what sets it apart from 4 is not known
+    Mod = 6,     // archive\pc\mod + mods\*\archives
 };
 
 struct ArchiveGroup
