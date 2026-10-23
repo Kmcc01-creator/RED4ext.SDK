@@ -116,6 +116,10 @@ struct CStackFrame
 {
     CStackFrame(IScriptable* aContext, char* aCode, void* aUnk = nullptr);
 
+    // A root frame's unk98 points at its own unk68, so a copy would point at the original's map.
+    CStackFrame(const CStackFrame&) = delete;
+    CStackFrame& operator=(const CStackFrame&) = delete;
+
     char* code;            // 00
     CBaseFunction* func;   // 08 - For scripted functions
     void* localVars;       // 10 - For scripted functions
