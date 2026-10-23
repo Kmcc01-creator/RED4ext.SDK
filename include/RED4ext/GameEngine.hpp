@@ -58,9 +58,10 @@ RED4EXT_ASSERT_SIZE(GameInstance, 0x138);
 
 struct CBaseEngine
 {
-    // Game 2.5: hWnd moved from 0x178 to 0x1D0, found in game by its value. The members around it
-    // keep their 2.31 offsets relative to it (unk174 just before, isClipped 0x11 after); that is
-    // inferred, not checked. unk140 and unk164 are unchecked.
+    // Game 2.5: hWnd moved from 0x178 to 0x1D0 and isClipped from 0x189 to 0x1E1. The exe passes
+    // +0x1D0 to IsWindow, GetForegroundWindow and ClientToScreen where 2.31 passed +0x178, and sets
+    // isClipped around the ClientToScreen call; hWnd is also found in game by its value. unk174 is
+    // inferred from hWnd; unk140 and unk164 are unchecked.
     struct UnkD0
     {
         uint8_t pad0[0x140];
@@ -101,14 +102,17 @@ struct CBaseEngine
     virtual rtti::IType* GetParentType() = 0;                                                   // 08
     virtual Memory::IAllocator* GetAllocator() = 0;                                             // 10
     virtual ~CBaseEngine() = 0;                                                                 // 18
-    virtual void sub_18() = 0;                                                                  // 20
+    // Game 2.5 inserted four slots before Terminate (2.31: 0x38) and one between 2.31's 0x68 and
+    // 0xB0, found by pairing the engine's virtual call sites across the two exes. Which of 0x20 to
+    // 0x50, and of 0x90 to 0xD0, are the new ones is not known.
+    virtual void sub_20() = 0;                                                                  // 20
     virtual void sub_28() = 0;                                                                  // 28
     virtual void sub_30() = 0;                                                                  // 30
-    virtual void Terminate(int32_t aExitStatus) = 0;                                            // 38
+    virtual void sub_38() = 0;                                                                  // 38
     virtual void sub_40() = 0;                                                                  // 40
     virtual void sub_48() = 0;                                                                  // 48
     virtual void sub_50() = 0;                                                                  // 50
-    virtual void sub_58() = 0;                                                                  // 58
+    virtual void Terminate(int32_t aExitStatus) = 0;                                            // 58
     virtual void sub_60() = 0;                                                                  // 60
     virtual void sub_68() = 0;                                                                  // 68
     virtual void sub_70() = 0;                                                                  // 70
@@ -120,16 +124,21 @@ struct CBaseEngine
     virtual void sub_A0() = 0;                                                                  // A0
     virtual void sub_A8() = 0;                                                                  // A8
     virtual void sub_B0() = 0;                                                                  // B0
-    virtual void TakeScreenshot(const rend::SingleScreenShotData& acData, bool a2 = false) = 0; // B8
+    virtual void sub_B8() = 0;                                                                  // B8
     virtual void sub_C0() = 0;                                                                  // C0
-    virtual void sub_C8(CGameOptions& aOptions) = 0;                                            // C8
+    virtual void sub_C8() = 0;                                                                  // C8
     virtual void sub_D0() = 0;                                                                  // D0
     virtual void sub_D8() = 0;                                                                  // D8
-    virtual void sub_E0() = 0;                                                                  // E0
+    virtual void TakeScreenshot(const rend::SingleScreenShotData& acData, bool a2 = false) = 0; // E0
     virtual void sub_E8() = 0;                                                                  // E8
-    virtual void sub_F0() = 0;                                                                  // F0
+    virtual void sub_F0(CGameOptions& aOptions) = 0;                                            // F0
     virtual void sub_F8() = 0;                                                                  // F8
     virtual void sub_100() = 0;                                                                 // 100
+    virtual void sub_108() = 0;                                                                 // 108
+    virtual void sub_110() = 0;                                                                 // 110
+    virtual void sub_118() = 0;                                                                 // 118
+    virtual void sub_120() = 0;                                                                 // 120
+    virtual void sub_128() = 0;                                                                 // 128
 
     double unk8;                               // 08
     float unk10;                               // 10
@@ -158,17 +167,23 @@ struct CBaseEngine
     int16_t unk5A;                             // 5A
     int32_t interopStartingPort;               // 5C
     int64_t unk60;                             // 60
+    // Game 2.5 grew 0x68 to 0x90 from 2.31's one qword (unk68) to 0x28 bytes: CBaseEngine::LoadScripts
+    // passes scriptsValidationErrors at 0xB0 (2.31: 0x90), and its neighbour uses
+    // scriptsCompilationErrors at 0x90 (2.31: 0x70). What 2.5 code uses in between: a pointer to a
+    // static object stored at 0x78 at startup, and a dword tested at 0x84.
     int64_t unk68;                             // 68
-    CString scriptsCompilationErrors;          // 70
-    DynArray<CString> scriptsValidationErrors; // 90
-    int64_t unkA0;                             // A0
-    int64_t unkA8;                             // A8
-    int64_t unkB0;                             // B0
-    int64_t unkB8;                             // B8
-    uint8_t padC0[0x10];                       // C0
-    // Game 2.5 added 0x20 bytes somewhere between 0x58 and 0xF0; placed here until found. The
-    // members from 0x58 to 0xC0 keep their 2.31 offsets, unchecked on 2.5.
-    uint8_t unkD0_2_5[0x20];                   // D0
+    int64_t unk70;                             // 70
+    void* unk78;                               // 78
+    int32_t unk80;                             // 80
+    int32_t unk84;                             // 84
+    int64_t unk88;                             // 88
+    CString scriptsCompilationErrors;          // 90
+    DynArray<CString> scriptsValidationErrors; // B0
+    int64_t unkA0;                             // C0
+    int64_t unkA8;                             // C8
+    int64_t unkB0;                             // D0
+    int64_t unkB8;                             // D8
+    uint8_t padC0[0x10];                       // E0
     UnkD0* unkD0;                              // F0
     double unkD8;                              // F8
     double unkE0;                              // 100
@@ -200,22 +215,26 @@ struct CBaseEngine
     int64_t unk2C8;                            // 2E8
     int32_t unk2D0;                            // 2F0
     bool isEP1;                                // 2F4 - IsEP1()
-    int64_t unk2D8;                            // 2F8
-    int64_t unk2E0;                            // 300
-    // Game 2.5 added another 0x20 bytes after isEP1; placed here until found.
-    uint8_t unk308_2_5[0x20];                  // 308
+    // Game 2.5 added 0x20 bytes here, before 2.31's unk2D8: the same code reads that at 0x2D8 in
+    // 2.31 and at 0x318 in 2.5.
+    uint8_t unk2F8[0x20];                      // 2F8
+    int64_t unk2D8;                            // 318
+    int64_t unk2E0;                            // 320
 };
 // Game 2.5 (3.0.88.46235): checked in game by value are scriptsLoaded, unkD0 (and its hWnd),
-// engineState, buildString and isEP1 (the IsEP1 native reads 0x2F4). scriptsBlobPath is inferred
-// from buildString; scriptsCompilationErrors and scriptsValidationErrors are unchecked.
+// engineState, buildString and isEP1 (the IsEP1 native reads 0x2F4); in the exe, against 2.31,
+// scriptsCompilationErrors, scriptsValidationErrors, unkA8, unkD0, engineState and unk2D8.
+// scriptsBlobPath is inferred from buildString.
 RED4EXT_ASSERT_SIZE(CBaseEngine, 0x328);
 RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsLoaded, 0x54);
+RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsCompilationErrors, 0x90);
+RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsValidationErrors, 0xB0);
 RED4EXT_ASSERT_OFFSET(CBaseEngine, unkD0, 0xF0);
 RED4EXT_ASSERT_OFFSET(CBaseEngine, engineState, 0x128);
-RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsValidationErrors, 0x90);
 RED4EXT_ASSERT_OFFSET(CBaseEngine, buildString, 0x150);
 RED4EXT_ASSERT_OFFSET(CBaseEngine, scriptsBlobPath, 0x170);
 RED4EXT_ASSERT_OFFSET(CBaseEngine, isEP1, 0x2F4);
+RED4EXT_ASSERT_OFFSET(CBaseEngine, unk2D8, 0x318);
 
 struct BaseGameEngine : CBaseEngine
 {
